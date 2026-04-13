@@ -51,6 +51,7 @@ SLIDES = {
     "東京海上日動": "https://docs.google.com/presentation/d/1t61hlIGjFGfwVhiQRHqnPzH81abbOfwKy9djRCA2C3k/edit?usp=drivesdk",
     "三菱UFJ銀行": "https://docs.google.com/presentation/d/1uCVILEta-EjN4nxr-i9U-4rF2Ael8RUZwInd8Rxd4TQ/edit?usp=drivesdk",
     "アクセンチュア": "https://docs.google.com/presentation/d/1QW9hwGiC0AG-tjBboK32mu3_12vqTaYDRiVQXvaeny0/edit?usp=drivesdk",
+    "住友商事": "https://docs.google.com/presentation/d/1sFM-o2XtC84fs_6lPehs9gbiUwigS0yativhShZi9uw/edit?usp=drivesdk",
 }
 
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
