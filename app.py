@@ -59,6 +59,10 @@ SLIDES = {
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
 
+@app.route("/health", methods=["GET"])
+def health():
+    return "OK", 200
+
 @app.route("/webhook", methods=["POST"])
 def webhook():
     signature = request.headers.get("X-Line-Signature", "")
