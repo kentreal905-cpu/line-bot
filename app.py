@@ -57,6 +57,8 @@ SLIDES = {
     "大和ハウス": "https://docs.google.com/presentation/d/11dotzh2c1RCtfT2pCeFODYaFkqTyeFStHK1weIKkkIE/edit?usp=drivesdk",
     "第一生命保険": "https://docs.google.com/presentation/d/14NiPRwQ3RTmuk0cvtsl8D1Z1kc9urGXzTMvJGXAy8DY/edit?usp=drivesdk",
     "第一生命": "https://docs.google.com/presentation/d/14NiPRwQ3RTmuk0cvtsl8D1Z1kc9urGXzTMvJGXAy8DY/edit?usp=drivesdk",
+    "博報堂": "https://docs.google.com/presentation/d/1jsaCT8PR-3zY92MMgvE0TZeb4uJwXx2izatjQJ9rzSw/edit?usp=drivesdk",
+    "三井物産": "https://docs.google.com/presentation/d/18iG6s1O8Ie3MjN-m8Me1gLRXQ0TohcqPJI9ZLQTaF1A/edit?usp=drivesdk",
 }
 
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
