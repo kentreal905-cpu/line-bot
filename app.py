@@ -12,7 +12,8 @@ CHANNEL_ACCESS_TOKEN = os.environ.get("CHANNEL_ACCESS_TOKEN", "ufTFLX4SsJV5y10Zp
 # 会社名 → GoogleスライドURL
 SLIDES = {
     "ソフトバンク": "https://docs.google.com/presentation/d/1TqYwnS9dmQ0UT_4qP4LuGMZH7Ai6_cgVdJhGKdt4kjM/edit?usp=drivesdk",
-    "PwCコンサルティング": "https://docs.google.com/presentation/d/19HQGyT5S00O673_ZLg5ljxr1giCD19ZbPjnds8Zbhqs/edit?usp=drivesdk",
+    "PwCコンサルティング": "https://docs.google.com/presentation/d/1zKZRWIN03wyZU9_TCqnvZlh1glPEbUOCi4zGL5-jSHk/edit?usp=drivesdk",
+    "PwC": "https://docs.google.com/presentation/d/1zKZRWIN03wyZU9_TCqnvZlh1glPEbUOCi4zGL5-jSHk/edit?usp=drivesdk",
     "三井不動産": "https://docs.google.com/presentation/d/1asUnoECkc34wu3HNfJ-Z7CYBhOKOuWLPd7hYZpb_VRw/edit?usp=drivesdk",
     "日本生命保険": "https://docs.google.com/presentation/d/1hrRt-A351y8WPOsX3XfweTIzh9yKgpTXlEYE7e_BEco/edit?usp=drivesdk",
     "ニデック": "https://docs.google.com/presentation/d/1bbeNHSdq45Lxyyk8DaYjXS7tsEDZQWgM5SDPfwjR9As/edit?usp=drivesdk",
