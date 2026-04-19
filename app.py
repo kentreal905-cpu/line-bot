@@ -59,6 +59,7 @@ SLIDES = {
     "第一生命": "https://docs.google.com/presentation/d/14NiPRwQ3RTmuk0cvtsl8D1Z1kc9urGXzTMvJGXAy8DY/edit?usp=drivesdk",
     "博報堂": "https://docs.google.com/presentation/d/1jsaCT8PR-3zY92MMgvE0TZeb4uJwXx2izatjQJ9rzSw/edit?usp=drivesdk",
     "三井物産": "https://docs.google.com/presentation/d/18iG6s1O8Ie3MjN-m8Me1gLRXQ0TohcqPJI9ZLQTaF1A/edit?usp=drivesdk",
+    "三菱地所": "https://docs.google.com/presentation/d/1h9EC2ZbXDdqq57cWsw0T9wlF5mw_9nxLbZnesT2iJ5s/edit?usp=drivesdk",
 }
 
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
