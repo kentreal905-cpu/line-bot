@@ -1,7 +1,7 @@
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FollowEvent
 import os
 
 app = Flask(__name__)
@@ -77,6 +77,33 @@ def webhook():
         handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
+    return "OK"
+
+FOLLOW_MESSAGE = """友だち追加ありがとうございます！🎉
+
+このアカウントでは、YouTubeチャンネル「社畜ジャパン」の視聴者プレゼントをお届けしています。
+
+📎 使い方
+気になる会社名を送るだけ！
+例：「トヨタ」「三菱UFJ銀行」「アクセンチュア」
+
+転職・就活の参考になる社員のリアル口コミをまとめたスライドをすぐにお送りします。
+
+動画を見た後にぜひ使ってみてください！"""
+
+@handler.add(FollowEvent)
+def handle_follow(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=FOLLOW_MESSAGE)
+    )
+
+@app.route("/broadcast", methods=["POST"])
+def broadcast():
+    data = request.get_json()
+    if not data or "message" not in data:
+        return "message field required", 400
+    line_bot_api.broadcast(TextSendMessage(text=data["message"]))
     return "OK"
 
 @handler.add(MessageEvent, message=TextMessage)
