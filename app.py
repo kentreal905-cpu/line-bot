@@ -69,9 +69,48 @@ SLIDES = {
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
 
+
+def find_slides(text):
+    """完全一致→部分一致の順で検索。重複URLは除去して返す。"""
+    if text in SLIDES:
+        return [(text, SLIDES[text])]
+    seen_urls = set()
+    matches = []
+    for company, url in SLIDES.items():
+        if (text in company or company in text) and url not in seen_urls:
+            seen_urls.add(url)
+            matches.append((company, url))
+    return matches
+
+
+def get_unique_companies():
+    """エイリアスを除いた代表名リストを返す。"""
+    seen_urls = set()
+    companies = []
+    for company, url in SLIDES.items():
+        if url not in seen_urls:
+            seen_urls.add(url)
+            companies.append(company)
+    return companies
+
+
+FOLLOW_MESSAGE = """友だち追加ありがとうございます！
+
+社畜ジャパンの視聴者プレゼント専用アカウントです📎
+
+▼ 使い方はシンプル
+気になる会社名を今すぐ送ってください！
+例：「トヨタ」「ソニー」「アクセンチュア」
+
+転職・就活の参考になるリアルな社員口コミスライドを即送信します。
+
+対応会社を確認したい場合は「一覧」と送ってください。"""
+
+
 @app.route("/health", methods=["GET"])
 def health():
     return "OK", 200
+
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
@@ -83,17 +122,6 @@ def webhook():
         abort(400)
     return "OK"
 
-FOLLOW_MESSAGE = """友だち追加ありがとうございます！🎉
-
-このアカウントでは、YouTubeチャンネル「社畜ジャパン」の視聴者プレゼントをお届けしています。
-
-📎 使い方
-気になる会社名を送るだけ！
-例：「トヨタ」「三菱UFJ銀行」「アクセンチュア」
-
-転職・就活の参考になる社員のリアル口コミをまとめたスライドをすぐにお送りします。
-
-動画を見た後にぜひ使ってみてください！"""
 
 @handler.add(FollowEvent)
 def handle_follow(event):
@@ -101,6 +129,7 @@ def handle_follow(event):
         event.reply_token,
         TextSendMessage(text=FOLLOW_MESSAGE)
     )
+
 
 @app.route("/broadcast", methods=["POST"])
 def broadcast():
@@ -110,21 +139,32 @@ def broadcast():
     line_bot_api.broadcast(TextSendMessage(text=data["message"]))
     return "OK"
 
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text.strip()
-    url = SLIDES.get(text)
 
-    if url:
-        reply = f"プレゼントはこちらです！\n\n{url}"
+    if text == "一覧":
+        companies = "\n".join(f"・{c}" for c in get_unique_companies())
+        reply = f"対応している会社一覧です👇\n\n{companies}\n\n会社名を送るとスライドをお届けします！"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
+        return
+
+    matches = find_slides(text)
+
+    if len(matches) == 1:
+        reply = f"プレゼントはこちらです！\n\n{matches[0][1]}"
+    elif len(matches) > 1:
+        options = "\n".join(f"・{company}" for company, _ in matches)
+        reply = f"以下の会社がヒットしました。正式名称で送ってください👇\n\n{options}"
     else:
-        companies = "\n".join(f"・{c}" for c in SLIDES.keys())
-        reply = f"会社名を送ってください。\n\n対応している会社一覧：\n{companies}"
+        reply = f"「{text}」のスライドはまだ準備中です🙏\n\n対応会社を確認したい場合は「一覧」と送ってください。"
 
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=reply)
     )
+
 
 if __name__ == "__main__":
     app.run(port=8000)
