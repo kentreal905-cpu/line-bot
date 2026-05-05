@@ -144,9 +144,14 @@ def broadcast():
 def handle_message(event):
     text = event.message.text.strip()
 
-    if text == "一覧":
+    if text in ("一覧", "会社一覧"):
         companies = "\n".join(f"・{c}" for c in get_unique_companies())
         reply = f"対応している会社一覧です👇\n\n{companies}\n\n会社名を送るとスライドをお届けします！"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
+        return
+
+    if text in ("使い方", "会社名を送る"):
+        reply = "気になる会社名をそのまま送ってください！\n\n例：\n「トヨタ」\n「ソニー」\n「アクセンチュア」\n\n対応会社を確認したい場合は「一覧」と送ってください。"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
         return
 
