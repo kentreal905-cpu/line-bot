@@ -64,6 +64,8 @@ SLIDES = {
     "日立": "https://docs.google.com/presentation/d/1HfNAYlo4jEZhSwH29KhGPa7Xlrs2THD1cYjrhWnBN64/edit?usp=drivesdk",
     "損害保険ジャパン": "https://docs.google.com/presentation/d/1I_hRrrZ-lv4a0FwXZgp6KHTZLYdHIUa4nbwD2NVvCao/edit?usp=drivesdk",
     "損保ジャパン": "https://docs.google.com/presentation/d/1I_hRrrZ-lv4a0FwXZgp6KHTZLYdHIUa4nbwD2NVvCao/edit?usp=drivesdk",
+    "リクルートホールディングス": "https://docs.google.com/presentation/d/1AtbkEIiyhyzRS0oYOiUatCl3akMyMT2V15Yk3gvZ_2o/edit?usp=drivesdk",
+    "リクルート": "https://docs.google.com/presentation/d/1AtbkEIiyhyzRS0oYOiUatCl3akMyMT2V15Yk3gvZ_2o/edit?usp=drivesdk",
 }
 
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
