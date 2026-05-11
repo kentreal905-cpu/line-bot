@@ -66,6 +66,13 @@ SLIDES = {
     "損保ジャパン": "https://docs.google.com/presentation/d/1I_hRrrZ-lv4a0FwXZgp6KHTZLYdHIUa4nbwD2NVvCao/edit?usp=drivesdk",
     "リクルートホールディングス": "https://docs.google.com/presentation/d/1AtbkEIiyhyzRS0oYOiUatCl3akMyMT2V15Yk3gvZ_2o/edit?usp=drivesdk",
     "リクルート": "https://docs.google.com/presentation/d/1AtbkEIiyhyzRS0oYOiUatCl3akMyMT2V15Yk3gvZ_2o/edit?usp=drivesdk",
+    "日本M&Aセンター": "https://docs.google.com/presentation/d/1K4ruo_54MexmryAmqjoyLiwZMMShmE3LjODvBMH3_yU/edit?usp=drivesdk",
+    "M&Aセンター": "https://docs.google.com/presentation/d/1K4ruo_54MexmryAmqjoyLiwZMMShmE3LjODvBMH3_yU/edit?usp=drivesdk",
+    "住友不動産": "https://docs.google.com/presentation/d/18ICuQXFXCQTjeDkg5IeX0mAarLafqmigWhziMOPeOj8/edit?usp=drivesdk",
+    "野村證券": "https://docs.google.com/presentation/d/1SqOV1JjXZfRKg1Y2x2Sgn049DDUsBBYyaHHOdojWM-I/edit?usp=drivesdk",
+    "野村": "https://docs.google.com/presentation/d/1SqOV1JjXZfRKg1Y2x2Sgn049DDUsBBYyaHHOdojWM-I/edit?usp=drivesdk",
+    "日本放送協会": "https://docs.google.com/presentation/d/1xVQ264hgB4EHAJ7VE8JZBU3G1NAU8bgdgkZDucmXyu8/edit?usp=drivesdk",
+    "NHK": "https://docs.google.com/presentation/d/1xVQ264hgB4EHAJ7VE8JZBU3G1NAU8bgdgkZDucmXyu8/edit?usp=drivesdk",
 }
 
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
