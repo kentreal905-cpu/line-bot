@@ -11,6 +11,7 @@ CHANNEL_ACCESS_TOKEN = os.environ.get("CHANNEL_ACCESS_TOKEN", "ufTFLX4SsJV5y10Zp
 
 # 会社名 → GoogleスライドURL
 SLIDES = {
+    "メルカリ": "https://docs.google.com/presentation/d/1ea3uGMcjz5U4XvStR1daCEm6EYOe7xkkXPzzybEiGnk/edit?usp=drivesdk",
     "ソフトバンク": "https://docs.google.com/presentation/d/1TqYwnS9dmQ0UT_4qP4LuGMZH7Ai6_cgVdJhGKdt4kjM/edit?usp=drivesdk",
     "PwCコンサルティング": "https://docs.google.com/presentation/d/1zKZRWIN03wyZU9_TCqnvZlh1glPEbUOCi4zGL5-jSHk/edit?usp=drivesdk",
     "PwC": "https://docs.google.com/presentation/d/1zKZRWIN03wyZU9_TCqnvZlh1glPEbUOCi4zGL5-jSHk/edit?usp=drivesdk",
