@@ -80,6 +80,24 @@ line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
 
 
+try:
+    from line_reviews import REVIEWS
+except ImportError:          # 生成ファイルが無くてもボットは動かす
+    REVIEWS = {}
+
+
+def find_reviews(text):
+    """口コミ一覧を返すキーワードか調べる。
+
+    SLIDES より先に見る。「野村」で野村證券のスライドが返ってしまうような
+    取り違えを避けるため、こちらは完全一致だけにしている。
+    """
+    for kw, bubbles in REVIEWS.items():
+        if text == kw or text.upper() == kw.upper():
+            return bubbles
+    return None
+
+
 def find_slides(text):
     """完全一致→部分一致の順で検索。重複URLは除去して返す。"""
     if text in SLIDES:
@@ -157,12 +175,24 @@ def handle_message(event):
     if text in ("一覧", "会社一覧"):
         companies = "\n".join(f"・{c}" for c in get_unique_companies())
         reply = f"対応している会社一覧です👇\n\n{companies}\n\n会社名を送るとスライドをお届けします！"
+        if REVIEWS:
+            extra = "\n".join(f"・{k}" for k in list(REVIEWS)[::1][:60])
+            reply += f"\n\n▼ 口コミ一覧をお送りできるキーワード\n{extra}"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
         return
 
     if text in ("使い方", "会社名を送る"):
         reply = "気になる会社名をそのまま送ってください！\n\n例：\n「トヨタ」\n「ソニー」\n「アクセンチュア」\n\n対応会社を確認したい場合は「一覧」と送ってください。"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
+        return
+
+    # 口コミ一覧（動画の視聴者プレゼント）を先に見る
+    bubbles = find_reviews(text)
+    if bubbles:
+        line_bot_api.reply_message(
+            event.reply_token,
+            [TextSendMessage(text=b) for b in bubbles[:5]]
+        )
         return
 
     matches = find_slides(text)
@@ -173,7 +203,8 @@ def handle_message(event):
         options = "\n".join(f"・{company}" for company, _ in matches)
         reply = f"以下の会社がヒットしました。正式名称で送ってください👇\n\n{options}"
     else:
-        reply = f"「{text}」のスライドはまだ準備中です🙏\n\n対応会社を確認したい場合は「一覧」と送ってください。"
+        reply = (f"「{text}」はまだ準備中です🙏\n\n"
+                 f"対応会社を確認したい場合は「一覧」と送ってください。")
 
     line_bot_api.reply_message(
         event.reply_token,

@@ -1,0 +1,25 @@
+# Render の無料プランは15分アクセスが無いとサーバーを止める。
+# 起き上がりに10〜15秒かかり、その間 LINE の Webhook はタイムアウトするため、
+# 「最初に話しかけた人だけ無反応」という状態になる。
+# 10分ごとに /health を叩いて起こし続ける。
+name: keepalive
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:        # 手動でも叩けるようにしておく
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: サーバーを起こす
+        run: |
+          for i in 1 2 3; do
+            code=$(curl -sS -m 60 -o /dev/null -w "%{http_code}" \
+              https://line-bot-6vfl.onrender.com/health) && break
+            echo "リトライ $i"
+            sleep 10
+          done
+          echo "HTTP $code"
+          test "$code" = "200"
