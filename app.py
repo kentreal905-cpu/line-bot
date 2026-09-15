@@ -85,6 +85,8 @@ try:
 except ImportError:          # 生成ファイルが無くてもボットは動かす
     REVIEWS = {}
 
+import seats_aero_alert
+
 
 def find_reviews(text):
     """口コミ一覧を返すキーワードか調べる。
@@ -159,6 +161,18 @@ def handle_follow(event):
     )
 
 
+@app.route("/seats-aero/check", methods=["POST"])
+def seats_aero_check():
+    token = os.environ.get("SEATS_AERO_TRIGGER_TOKEN")
+    if not token or request.headers.get("X-Trigger-Token") != token:
+        abort(401)
+    try:
+        count = seats_aero_alert.run_alert(line_bot_api)
+    except seats_aero_alert.SeatsAeroError as e:
+        return str(e), 500
+    return {"new_deals": count}, 200
+
+
 @app.route("/broadcast", methods=["POST"])
 def broadcast():
     data = request.get_json()
@@ -178,6 +192,26 @@ def handle_message(event):
         if REVIEWS:
             extra = "\n".join(f"・{k}" for k in list(REVIEWS)[::1][:60])
             reply += f"\n\n▼ 口コミ一覧をお送りできるキーワード\n{extra}"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
+        return
+
+    if text in ("ヨーロッパ", "特典航空券"):
+        api_key = os.environ.get("SEATS_AERO_API_KEY")
+        if not api_key:
+            reply = "seats.aero API キーが未設定のため、この機能はまだ使えません🙏"
+        else:
+            try:
+                deals = seats_aero_alert.find_deals(api_key)
+            except seats_aero_alert.SeatsAeroError as e:
+                reply = str(e)
+            else:
+                if not deals:
+                    reply = "条件に合うヨーロッパ行きの特典航空券は見つかりませんでした🙏"
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
+                    return
+                messages = seats_aero_alert.deals_to_messages(deals)
+                line_bot_api.reply_message(event.reply_token, messages)
+                return
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
         return
 

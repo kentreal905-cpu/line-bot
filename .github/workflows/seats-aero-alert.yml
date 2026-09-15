@@ -1,0 +1,25 @@
+# seats.aero でヨーロッパ行きのお得な特典航空券を定期チェックし、
+# 見つかったら /seats-aero/check エンドポイント経由で LINE に通知する。
+#
+# 事前準備（GitHub リポジトリの Settings > Secrets and variables > Actions）:
+#   SEATS_AERO_TRIGGER_TOKEN … app.py 側の SEATS_AERO_TRIGGER_TOKEN と同じ値
+name: seats-aero-alert
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"   # 3時間おき（UTC基準）
+  workflow_dispatch:        # 手動でも叩けるようにしておく
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: seats.aero をチェックして通知
+        run: |
+          code=$(curl -sS -m 120 -o /tmp/resp.json -w "%{http_code}" \
+            -X POST \
+            -H "X-Trigger-Token: ${{ secrets.SEATS_AERO_TRIGGER_TOKEN }}" \
+            https://line-bot-6vfl.onrender.com/seats-aero/check)
+          cat /tmp/resp.json
+          echo "HTTP $code"
+          test "$code" = "200"
