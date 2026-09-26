@@ -6,8 +6,18 @@ import os
 
 app = Flask(__name__)
 
-CHANNEL_SECRET = os.environ.get("CHANNEL_SECRET", "1e6a5d46d13166cd0277d9e1252efb15")
-CHANNEL_ACCESS_TOKEN = os.environ.get("CHANNEL_ACCESS_TOKEN", "ufTFLX4SsJV5y10ZpALAy1p5Lj2NJNL92q3p0IWd9F20tLdiFntfy9eSvDSogk5T6aug0qsc2u9ULeD1DD4LteDpPzfP6xyYEjBS41kzpe6P8+aoVTpgxeRGO0Uy3spU1u7S0Z3wMbPlxwgmndaRBAdB04t89/1O/w1cDnyilFU=")
+# LINE の資格情報は**環境変数だけ**から読む（2026-09-26）。
+# 以前はここに直接書いていたが、リポジトリが public だったため
+# 5か月半ネットに公開されていた。値は Render の Environment に置く。
+# ローカルで動かすときは `export CHANNEL_SECRET=... CHANNEL_ACCESS_TOKEN=...`。
+CHANNEL_SECRET = os.environ.get("CHANNEL_SECRET", "")
+CHANNEL_ACCESS_TOKEN = os.environ.get("CHANNEL_ACCESS_TOKEN", "")
+
+if not CHANNEL_SECRET or not CHANNEL_ACCESS_TOKEN:
+    raise RuntimeError(
+        "CHANNEL_SECRET と CHANNEL_ACCESS_TOKEN が設定されていません。"
+        "Render の Environment（またはローカルの環境変数）に入れてください。"
+    )
 
 # 会社名 → GoogleスライドURL
 SLIDES = {
